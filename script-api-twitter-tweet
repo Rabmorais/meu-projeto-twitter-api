@@ -1,0 +1,32 @@
+pip install tweepy
+
+import tweepy
+
+# Suas chaves e tokens de autenticação
+consumer_key = "SUA CONSUMER KEY"
+consumer_secret = "SUA CONSUMER KEY SECRET"
+access_token = "SUA ACCESS TOKEN"
+access_token_secret = "SUA ACCESS TOKEN SECRET"
+
+# Autenticar com a API do Twitter
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
+# Criar um objeto da API
+api = tweepy.API(auth, wait_on_rate_limit=True)
+
+# ID do tweet que você deseja coletar comentários
+tweet_id = "ID DO TWEET"
+
+# Obter detalhes do tweet
+tweet = api.get_status(tweet_id)
+
+# Exibir o texto do tweet
+print("Texto do Tweet:", tweet.text)
+
+# Obter os comentários do tweet
+comments = api.search(q=f"to:{tweet.user.screen_name}", since_id=tweet_id, tweet_mode="extended")
+
+# Exibir os comentários
+for comment in comments:
+    print("Comentário:", comment.full_text)
